@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext } from '@ngxs/store';
 import { Post } from '../../posts/posts.model';
-import { GetPosts } from './posts.action';
+import { PostsAction } from './posts.action';
 
 export interface PostsStateModel {
   post: Post[];
@@ -15,13 +15,10 @@ export interface PostsStateModel {
 })
 @Injectable()
 export class PostsState {
-  @Action(GetPosts)
-  post(ctx: StateContext<PostsStateModel>, action: Post) {
-    const state = ctx.getState();
-    ctx.setState({
-      ...state,
-      post: [...state.post, action],
+  @Action(PostsAction)
+  post({ patchState }: StateContext<PostsStateModel>, {}: PostsAction) {
+    patchState({
+      post: [],
     });
-    console.log(state);
   }
 }

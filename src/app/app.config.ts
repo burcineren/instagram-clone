@@ -10,11 +10,8 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     importProvidersFrom(
-      NgxsModule.forRoot([PostsState], {
-        developmentMode: !environment.production,
-      })
+      NgxsModule.forRoot([PostsState])
     ),
-
     provideClientHydration(),
   ],
 };
