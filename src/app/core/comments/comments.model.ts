@@ -1,5 +1,5 @@
 export interface Comment {
   description: string;
-  reaction: string;
-  userId: number;
+  name: string;
+  postId: number;
 }

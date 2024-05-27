@@ -1,6 +1,6 @@
 import { Comment } from '../../comments/comments.model';
 
 export class CommentsAction {
-  static readonly type = '[Posts] Post';
-  constructor(public posts: Comment) {}
+  static readonly type = '[Comments] Comment';
+  constructor(public comments: Comment) {}
 }
