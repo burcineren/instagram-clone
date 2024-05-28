@@ -1,11 +1,16 @@
 <button (click)="getPosts()">Click Post!</button>
 <!-- <button (click)="test()">Click test!</button> -->
-<button (click)="getComments()">comments</button>
-
-<!-- <p>{{datas | json}}</p> -->
-<!-- <div class="">
-    @for (item of datas; track item) {
-      <p> namee::: {{item.name}}</p>
-}
+<!-- <button (click)="getComments()">comments</button> -->
+<!-- <div>
+  <button (click)="getCommentss()">Get Comments</button>
+  <ul *ngFor="let description of commentDescriptions">
+    <li>{{ description }}</li>
+  </ul>
 </div> -->
+<p>{{commentDescriptions | json}}</p>
+<div class="">
+    @for (description of commentDescriptions; track description) {
+      <p> namee::: {{description}}</p>
+}
+</div>
 <router-outlet />

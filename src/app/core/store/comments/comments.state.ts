@@ -5,15 +5,13 @@ import { Comment } from '../../comments/comments.model';
 import { CommnetService } from '../../comments/comments.service';
 import { CommentsAction } from './comments.action';
 
-export interface CommentsStateModel {
-  comment: Comment[];
-}
+// export interface CommentsStateModel {
+//   comment: Comment[];
+// }
 
-@State<CommentsStateModel>({
+@State<Comment[]>({
   name: 'comments',
-  defaults: {
-    comment: [],
-  },
+  defaults: []
 })
 @Injectable()
 export class CommentState {
@@ -22,18 +20,40 @@ export class CommentState {
   datas: any;
 
   @Selector()
-  static getCommentData({ comment }: CommentsStateModel) {
-    return comment;
+  static getComments(commnet: Comment[]) {
+    return commnet;
   }
+
+  // comment(
+  //   { patchState }: StateContext<CommentsStateModel>,
+  //   {}: CommentsAction
+  // ) {
+  //   patchState({
+  //     comment: [],
+  //   });
+  //   // this.comments
+  //   //   .getComments()
+  //   //   .pipe(takeUntil(this.destroyed))
+  //   //   .subscribe((data: any) => {
+  //   //     // this.datas = data;
+  //   //     console.log(data);
+  //   //     const formatData = data.map((res:any)=> {
+  //   //       return {
+  //   //         description: res.body,
+  //   //         name: res.name,
+  //   //         postId: res.postId
+  //   //       };
+  //   //     })
+  //   //     patchState({
+  //   //       comment: formatData,
+  //   //     });
+  //     // });
+     
+  // }
   @Action(CommentsAction)
-  comment(
-    { patchState }: StateContext<CommentsStateModel>,
-    {}: CommentsAction
-  ) {
-    patchState({
-      comment: [],
-    });
-    this.comments
+  comment({  patchState }: StateContext<Comment[]>, { payload }: CommentsAction) {
+    patchState([payload]);
+     this.comments
       .getComments()
       .pipe(takeUntil(this.destroyed))
       .subscribe((data: any) => {
@@ -46,10 +66,7 @@ export class CommentState {
             postId: res.postId
           };
         })
-        patchState({
-          comment: formatData,
-        });
+        patchState([formatData]);
       });
-     
   }
 }
