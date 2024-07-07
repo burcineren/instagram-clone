@@ -1,8 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { CommnetService } from './core/comments/comments.service';
 import { PostsAction } from './core/store/posts/posts.action';
 import { CommonModule } from '@angular/common';
 import { CommentsAction } from './core/store/comments/comments.action';
@@ -12,30 +11,30 @@ import { Comment } from './core/comments/comments.model';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,CommonModule],
+  imports: [RouterOutlet, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
   // comments: Comment[] = [];
   image: string = 'https://via.placeholder.com/600/771796';
   capition: string = 'reprehenderit est deserunt velit ipsam';
-  description: string = "";
-  name: string ="";
+  description: string;
+  name: string ;
   private store = inject(Store);
-  datas:any;
+  datas: any;
   // private comments = inject(CommnetService);
-  destroyed= new Subject();
+  destroyed = new Subject();
   commentDescriptions: any;
 
   @Select(CommentState.getComments) getComments: Observable<Comment[]>;
 
   ngOnInit() {
     this.getComments.pipe(takeUntil(this.destroyed)).subscribe((comments) => {
-      console.log(comments)
-      this.commentDescriptions = comments.map(comment => {
+      console.log(comments);
+      this.commentDescriptions = comments.map((comment) => {
         console.log(comment);
-      return comment
+        return comment;
       });
     });
   }
@@ -49,13 +48,14 @@ export class AppComponent {
     );
   }
   getCommentss() {
-    this.store.dispatch(
+  const a =  this.store.dispatch(
       new CommentsAction({
         description: this.description,
         name: this.name,
         postId: 1,
       })
     );
+    console.log("aaaa::",a)
   }
   ngOnDestroy() {
     // this.destroyed.next();

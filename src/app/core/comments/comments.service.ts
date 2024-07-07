@@ -7,16 +7,12 @@ import { Observable } from "rxjs";
     providedIn: 'root',
 })
 export class CommnetService {
-
-
     constructor(private http : HttpClient){
-
     }
 
     getComments(): Observable<Comment[]>{
         const comments = this.http.get<Comment[]>("https://jsonplaceholder.typicode.com/comments");
-        console.log(comments);
+        console.log("comments:::",comments);
         return comments;
     }
-
 }
