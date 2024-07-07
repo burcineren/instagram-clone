@@ -1,41 +1,55 @@
 import { inject, Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { Subject, takeUntil } from 'rxjs';
-import { Comment } from '../../comments/comments.model';
+import { Subject, takeUntil, tap } from 'rxjs';
 import { CommnetService } from '../../comments/comments.service';
 import { CommentsAction } from './comments.action';
+import { CommentData } from '../../comments/comments.model';
 
-@State<Comment[]>({
-  name: 'comments',
-  defaults: []
+export interface Comment {
+  comments: CommentData[];
+}
+@State<Comment>({
+  name: 'comment',
+  defaults: {
+    comments: [],
+  }
 })
 @Injectable()
 export class CommentState {
-  private comments = inject(CommnetService);
+  private commnetService = inject(CommnetService);
+
 
   destroyed = new Subject();
 
   @Selector()
-  static getComments(commnet: Comment[]) {
-    return commnet;
+  static getComments({comments}: Comment) {
+    return comments;
   }
   @Action(CommentsAction)
-  comment({  patchState }: StateContext<Comment[]>, { payload }: CommentsAction) {
-    console.log("commnet::::");
-    patchState([payload]);
-     this.comments
-      .getComments()
-      .subscribe((data: any) => {
+  fetchCommentData(ctx: StateContext<Comment>, action: CommentsAction) {
+  
+   
+    // this.commnetService.getComments(payload).subscribe(response => {
 
-        console.log("data:::",data);
-        const formatData = data.map((res:any)=> {
-          return {
-            description: res.body,
-            name: res.name,
-            postId: res.postId
-          };
-        })
-        patchState([formatData]);
-      });
+    //   const data = response.map((res:any) => {
+    //     return {
+    //       name: res.name,
+    //       email: res.email,
+    //       body: res.body
+    //     }
+    //   })
+    //   patchState({ 
+    //     comments: data
+    //   });
+    // console.log("payload::::",data);
+
+    // });
+    return this.commnetService.getComments().pipe(
+      tap((comments: CommentData[]) => {
+        ctx.patchState({
+          comments
+        });
+      })
+    );
   }
 }

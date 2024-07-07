@@ -1,16 +1,23 @@
-<button (click)="getPosts()">Click Post!</button>
-<!-- <button (click)="test()">Click test!</button> -->
-<button (click)="getCommentss()">comments</button>
-<!-- <div>
-  <button (click)="getCommentss()">Get Comments</button>
-  <ul *ngFor="let description of commentDescriptions">
-    <li>{{ description }}</li>
-  </ul>
-</div> -->
+
+<button (click)="getComments()">comments</button>
+
 <p>{{commentDescriptions | json}}</p>
 <div class="">
-    @for (description of commentDescriptions; track description) {
-      <p> namee::: {{description}}</p>
+    @for (names of name; track name) {
+      <p> namee::: {{names}}</p>
 }
+<p>{{comments | json}}</p>
 </div>
+<!-- app.component.html -->
+<!-- <div>
+  <div >
+  
+    @for ( comment of comments; track comment) {
+      <p>{{ comment.name }}</p>
+      <p>{{ comment.email }}</p>
+      <p>{{ comment.body }}</p>
+    }
+  </div>
+</div> -->
+
 <router-outlet />

@@ -6,7 +6,7 @@ import { PostsAction } from './core/store/posts/posts.action';
 import { CommonModule } from '@angular/common';
 import { CommentsAction } from './core/store/comments/comments.action';
 import { CommentState } from './core/store/comments/comments.state';
-import { Comment } from './core/comments/comments.model';
+import { CommentData } from './core/comments/comments.model';
 
 @Component({
   selector: 'app-root',
@@ -20,23 +20,19 @@ export class AppComponent implements OnInit, OnDestroy {
   image: string = 'https://via.placeholder.com/600/771796';
   capition: string = 'reprehenderit est deserunt velit ipsam';
   description: string;
-  name: string ;
+  comments: string[] = [];
+  name: string;
+  email: string;
   private store = inject(Store);
   datas: any;
-  // private comments = inject(CommnetService);
   destroyed = new Subject();
   commentDescriptions: any;
-
-  @Select(CommentState.getComments) getComments: Observable<Comment[]>;
+  getcommentsApi: any;
+  private destroyed$ = new Subject();
+  @Select(CommentState.getComments) comments$: Observable<CommentData[]>;
 
   ngOnInit() {
-    this.getComments.pipe(takeUntil(this.destroyed)).subscribe((comments) => {
-      console.log(comments);
-      this.commentDescriptions = comments.map((comment) => {
-        console.log(comment);
-        return comment;
-      });
-    });
+
   }
   getPosts() {
     this.store.dispatch(
@@ -47,15 +43,14 @@ export class AppComponent implements OnInit, OnDestroy {
       })
     );
   }
-  getCommentss() {
-  const a =  this.store.dispatch(
-      new CommentsAction({
-        description: this.description,
-        name: this.name,
-        postId: 1,
-      })
-    );
-    console.log("aaaa::",a)
+
+  getComments() {
+    const postId = 1; 
+    this.store.dispatch(new CommentsAction({ postId }));
+
+    this.comments$.pipe(takeUntil(this.destroyed$)).subscribe(comments => {
+      console.log('text::: ', comments);
+    });
   }
   ngOnDestroy() {
     // this.destroyed.next();

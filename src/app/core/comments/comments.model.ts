@@ -1,5 +1,12 @@
-export interface Comment {
-  description: string;
+export interface CommentDataModel {
+  id: number;
   name: string;
-  postId: number;
+  email: string;
+  body: string;
+}
+
+export interface CommentData {
+  name: string;
+  email: string;
+  body: string;
 }
