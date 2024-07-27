@@ -1,54 +1,34 @@
-import { inject, Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { Subject, takeUntil, tap } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { tap } from 'rxjs/operators';
 import { CommnetService } from '../../comments/comments.service';
 import { CommentsAction } from './comments.action';
-import { CommentData } from '../../comments/comments.model';
+import { Comment } from '../../comments/comments.model';
 
-export interface Comment {
-  comments: CommentData[];
+export interface CommentsStateModel {
+  comments: Comment[];
 }
-@State<Comment>({
-  name: 'comment',
+
+@State<CommentsStateModel>({
+  name: 'comments',
   defaults: {
     comments: [],
-  }
+  },
 })
 @Injectable()
-export class CommentState {
-  private commnetService = inject(CommnetService);
-
-
-  destroyed = new Subject();
+export class CommentsState {
+  constructor(private commnetService: CommnetService) {}
 
   @Selector()
-  static getComments({comments}: Comment) {
-    return comments;
+  static comments(state: CommentsStateModel): Comment[] {
+    return state.comments;
   }
+
   @Action(CommentsAction)
-  fetchCommentData(ctx: StateContext<Comment>, action: CommentsAction) {
-  
-   
-    // this.commnetService.getComments(payload).subscribe(response => {
-
-    //   const data = response.map((res:any) => {
-    //     return {
-    //       name: res.name,
-    //       email: res.email,
-    //       body: res.body
-    //     }
-    //   })
-    //   patchState({ 
-    //     comments: data
-    //   });
-    // console.log("payload::::",data);
-
-    // });
+  getComments({ patchState }: StateContext<CommentsStateModel>) {
     return this.commnetService.getComments().pipe(
-      tap((comments: CommentData[]) => {
-        ctx.patchState({
-          comments
-        });
+      tap((result) => {
+        patchState({ comments: result });
       })
     );
   }

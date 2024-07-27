@@ -5,13 +5,13 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { PostsState } from './core/store/posts/posts.state';
 import { NgxsModule } from '@ngxs/store';
 import { provideHttpClient } from '@angular/common/http';
-import { CommentState } from './core/store/comments/comments.state';
+import { CommentsState } from './core/store/comments/comments.state';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     importProvidersFrom(
-      NgxsModule.forRoot([PostsState,CommentState])
+      NgxsModule.forRoot([PostsState,CommentsState])
     ),
     provideClientHydration(),
     provideHttpClient()

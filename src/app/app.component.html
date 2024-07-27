@@ -1,23 +1,8 @@
-
-<button (click)="getComments()">comments</button>
-
-<p>{{commentDescriptions | json}}</p>
-<div class="">
-    @for (names of name; track name) {
-      <p> namee::: {{names}}</p>
-}
-<p>{{comments | json}}</p>
-</div>
-<!-- app.component.html -->
-<!-- <div>
-  <div >
-  
-    @for ( comment of comments; track comment) {
-      <p>{{ comment.name }}</p>
-      <p>{{ comment.email }}</p>
-      <p>{{ comment.body }}</p>
-    }
-  </div>
-</div> -->
+<ul>
+  <li *ngFor="let comment of comments$ | async">
+    <strong>{{ comment.name }}</strong> ({{ comment.email }}):<br />
+    {{ comment.body }}
+  </li>
+</ul>
 
 <router-outlet />
