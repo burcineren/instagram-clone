@@ -1,26 +1,26 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Store } from '@ngxs/store';
-import { PostsAction } from './core/store/posts/posts.action';
+import { Select, Store } from '@ngxs/store';
+import {  Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
+
+import { CommentsState } from './core/store/comments/comments.state';
+import { Comment } from './core/comments/comments.model';
+import { CommentsAction } from './core/store/comments/comments.action';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
-  image: string = 'https://via.placeholder.com/600/771796';
-  capition: string = 'reprehenderit est deserunt velit ipsam';
+export class AppComponent implements  OnInit{
   private store = inject(Store);
-  getPosts() {
-    this.store.dispatch(
-      new PostsAction({
-        image: this.image,
-        capition: this.capition,
-        userId: 1,
-      })
-    );
+
+  @Select(CommentsState.comments) comments$: Observable<Comment[]>;
+
+  ngOnInit(){
+    this.store.dispatch(new CommentsAction());
   }
 }

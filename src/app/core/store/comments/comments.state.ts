@@ -1,27 +1,35 @@
+import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Injectable } from '@angular/core';
-import { State, Action, StateContext } from '@ngxs/store';
-import { Comment } from '../../comments/comments.model';
+import { tap } from 'rxjs/operators';
+import { CommnetService } from '../../comments/comments.service';
 import { CommentsAction } from './comments.action';
+import { Comment } from '../../comments/comments.model';
 
 export interface CommentsStateModel {
-  comment: Comment[];
+  comments: Comment[];
 }
 
 @State<CommentsStateModel>({
   name: 'comments',
   defaults: {
-    comment: [],
+    comments: [],
   },
 })
 @Injectable()
-export class CommentState {
+export class CommentsState {
+  constructor(private commnetService: CommnetService) {}
+
+  @Selector()
+  static comments(state: CommentsStateModel): Comment[] {
+    return state.comments;
+  }
+
   @Action(CommentsAction)
-  comment(
-    { patchState }: StateContext<CommentsStateModel>,
-    {}: CommentsAction
-  ) {
-    patchState({
-      comment: [],
-    });
+  getComments({ patchState }: StateContext<CommentsStateModel>) {
+    return this.commnetService.getComments().pipe(
+      tap((result) => {
+        patchState({ comments: result });
+      })
+    );
   }
 }

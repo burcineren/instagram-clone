@@ -1,2 +1,8 @@
-<button (click)="getPosts()">Click Post!</button>
+<ul>
+  <li *ngFor="let comment of comments$ | async">
+    <strong>{{ comment.name }}</strong> ({{ comment.email }}):<br />
+    {{ comment.body }}
+  </li>
+</ul>
+
 <router-outlet />
