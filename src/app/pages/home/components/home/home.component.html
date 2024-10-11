@@ -1,8 +1,15 @@
-<p class="text-amber-700">home works!</p>
-<button 
-    pButton 
-    pRipple 
-    label="Submit" 
-    class="p-button-success">
-    test
-</button>
+<div class="flex h-screen">
+    <sidebar></sidebar>
+   
+  <!-- Main content -->
+  <div class="flex-1 p-6">
+    <ul>
+        <li *ngFor="let comment of comments$ | async">
+          <strong>{{ comment.name }}</strong> ({{ comment.email }}):<br />
+          {{ comment.body }}
+        </li>
+      </ul>
+      <p class="text-amber-700">home works!</p>
+  </div>
+</div>
+
