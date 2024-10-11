@@ -7,11 +7,12 @@ import { Observable } from 'rxjs';
 import { CommentsAction } from '../../../../core/store/comments/comments.action';
 import { CommonModule } from '@angular/common';
 import { Comment } from '../../../../core/comments/comments.model';
+import { TabMenuComponent } from '../../../../layout/tab-menu/tab-menu.component';
 
 @Component({
   selector: 'home',
   standalone: true,
-  imports: [SidebarComponent, CommonModule],
+  imports: [SidebarComponent,TabMenuComponent, CommonModule],
   templateUrl: 'home.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
