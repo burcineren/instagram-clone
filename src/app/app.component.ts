@@ -1,7 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
-import {  Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 import { CommentsState } from './core/store/comments/comments.state';
@@ -16,12 +14,6 @@ import { HomeComponent } from './pages/home/components/home/home.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent implements  OnInit{
-  private store = inject(Store);
-
-  @Select(CommentsState.comments) comments$: Observable<Comment[]>;
-
-  ngOnInit(){
-    this.store.dispatch(new CommentsAction());
-  }
+export class AppComponent{
+ 
 }
